@@ -1,13 +1,19 @@
 @echo off
 cls
 
-set dir="class/exo1"
+set classDir="class"
+set exoDir="%classDir%/exo1"
 
-if  not exist "%dir%" (
-        mkdir "%dir%"
+if  not exist "%classDir%" (
+    mkdir "%classDir%"
 )
-javac src/prog2/concur/exercice1/*.java -d %dir%
 
-java -classpath %dir% prog2/concur/exercice1/Philosophe
+if  not exist "%exoDir%" (
+    mkdir "%exoDir%"
+)
+
+javac src/prog2/concur/exercice1/*.java -d %exoDir%
+
+java -classpath %exoDir% prog2/concur/exercice1/Philosophe
 
 pause
