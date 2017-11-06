@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="concurrentel" basedir=".">
+
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="class"/>
+    <property name="exo1.dir" value="${build.dir}/exo1"/>
+    <property name="exo2.dir" value="${build.dir}/exo2"/>
+    <property name="main-class-exo1" value="prog2.concur.exercice1.Philosophe"/>
+    <property name="main-class-exo2" value="prog2.concur.exercice2.Exercice2"/>
+
+    <target name="clean" description="Suppression des répertoires et fichiers générés">
+        <delete dir="${build.dir}"/>
+    </target>
+
+
+    <!--
+    ================== compile ==================
+    -->
+
+    <target name="compile_exo1" description="Compile les sources exo1">
+        <mkdir dir="${exo1.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${exo1.dir}" includes="**/exercice1/*.java" />
+    </target>
+
+
+    <target name="compile_exo2" description="Compile les sources exo2">
+        <mkdir dir="${exo2.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${exo2.dir}" includes="**/exercice2/*.java" />
+    </target>
+
+
+    <!--
+    ================== run ==================
+    -->
+
+    <target name="run_exo1" depends="compile_exo1" description="run exo1">
+        <java classname="${main-class-exo1}" fork="true" >
+            <classpath location="class/exo1"/>
+        </java>
+    </target>
+
+    <target name="run_exo2" depends="compile_exo2" description="run exo2">
+        <java classname="${main-class-exo2}" fork="true" >
+            <classpath location="class/exo2"/>
+        </java>
+    </target>
+
+</project>
