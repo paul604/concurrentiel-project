@@ -1,5 +1,7 @@
 package prog2.concur.exercice1;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -101,13 +103,33 @@ public class Philosophe implements Runnable {
             //affiche les informations des philosophes
             System.out.println("stats");
             System.out.println("-----------------------------------");
+
+            Long nbTotla=0L;
             for (Philosophe philosophe : table) {
+                nbTotla += philosophe.nbPenser+philosophe.nbManger;
                 System.out.println(philosophe._nom);
                 System.out.println("    nbManger: " + philosophe.nbManger);
                 System.out.println("    nbPenser: " + philosophe.nbPenser);
                 System.out.println("    total: " + (philosophe.nbPenser+philosophe.nbManger));
                 System.out.println("-----------------------------------");
             }
+            StringBuilder stringBuilder = new StringBuilder();
+            for (Philosophe philosophe : table) {
+
+                float nbMengerPourCent =((float)(philosophe.nbPenser+philosophe.nbManger)/nbTotla)*100;
+
+                stringBuilder.append(philosophe._nom).append("\n");
+                for (int i=1; i<=(int)nbMengerPourCent; i++){
+                    stringBuilder.append("+");
+                }
+                for (int j=(int)nbMengerPourCent; j<100; j++){
+                    stringBuilder.append("-");
+                }
+                stringBuilder.append("\n");
+            }
+            System.out.println(stringBuilder);
+
+
             System.exit(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
