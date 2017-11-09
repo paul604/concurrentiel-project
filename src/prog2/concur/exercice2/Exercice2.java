@@ -12,15 +12,17 @@ class Producteur implements Runnable {
 
     public void run() {
         try {
-            for (int i = 0; i < 50; i++) {
-                //Thread.sleep((int)(Math.random()*1000));
+            for (int i = 0; i < 3/*50*/; i++) {
+                Thread.sleep((int)(Math.random()*1000));
                 file.deposer(id + i);
                 System.out.println("deposer : " + id + i);
             }
         } catch (InterruptedException e) {
+            System.out.println("Producteur " + id + " leave with error");
             e.printStackTrace();
             System.exit(1);
         }
+        System.out.println("Producteur " + id + " leave ");
 
     }
 }
@@ -38,15 +40,17 @@ class Consommateur implements Runnable {
     public void run() {
         String elem;
         try {
-            for (int i = 0; i < 50; i++) {
-                //Thread.sleep((int)(Math.random()*1000));
+            for (int i = 0; i < 3/*50*/; i++) {
+                Thread.sleep((int)(Math.random()*1000));
                 elem = file.prendre();
                 System.out.println(id + "prendre : " + elem);
             }
         } catch (InterruptedException e) {
+            System.out.println("Consommateur " + id + " leave with error");
             e.printStackTrace();
             System.exit(1);
         }
+        System.out.println("Consommateur " + id + " leave");
 
     }
 }
@@ -54,7 +58,7 @@ class Consommateur implements Runnable {
 public class Exercice2 {
 
     public static void main(String args[]) {
-        AbstractFileBloquanteBornee<String> f = null/*new File1<String>(5)*/;
+        AbstractFileBloquanteBornee<String> f = new File1<>(5);
 
         new Thread(new Producteur(f, "P1")).start();
         new Thread(new Producteur(f, "P2")).start();
@@ -67,5 +71,9 @@ public class Exercice2 {
         new Thread(new Consommateur(f, "C2")).start();
         new Thread(new Consommateur(f, "C3")).start();
         new Thread(new Consommateur(f, "C4")).start();
+
+
+        new Thread(new Consommateur(f, "C5")).start();
+        new Thread(new Consommateur(f, "C6")).start();
     }
 }
