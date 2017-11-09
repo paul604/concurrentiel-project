@@ -104,11 +104,12 @@ public class Philosophe implements Runnable {
 
             Long nbTotla=0L;
             for (Philosophe philosophe : table) {
-                nbTotla += philosophe.nbPenser+philosophe.nbManger;
+                int i = philosophe.nbPenser + philosophe.nbManger;
+                nbTotla += i;
                 System.out.println(philosophe._nom);
                 System.out.println("    nbManger: " + philosophe.nbManger);
                 System.out.println("    nbPenser: " + philosophe.nbPenser);
-                System.out.println("    total: " + (philosophe.nbPenser+philosophe.nbManger));
+                System.out.println("    total: " + i);
                 System.out.println("-----------------------------------");
             }
             StringBuilder stringBuilder = new StringBuilder();
