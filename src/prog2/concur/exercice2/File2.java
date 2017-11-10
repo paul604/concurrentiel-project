@@ -17,7 +17,6 @@ public class File2<T> extends AbstractFileBloquanteBornee<T> {
 
     @Override
     public synchronized void deposer(T s) throws InterruptedException {
-        System.out.println("deposer");
         while ( super.estPleine){
             wait();
         }
@@ -37,7 +36,6 @@ public class File2<T> extends AbstractFileBloquanteBornee<T> {
 
     @Override
     public synchronized T prendre() throws InterruptedException {
-        System.out.println("prendre");
         while (super.estVide){
             wait();
         }
