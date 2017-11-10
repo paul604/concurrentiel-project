@@ -18,10 +18,10 @@ public class File2<T> extends AbstractFileBloquanteBornee<T> {
     @Override
     public synchronized void deposer(T s) throws InterruptedException {
         System.out.println("deposer");
-        readWriteLock.writeLock().lock();
         while ( super.estPleine){
             wait();
         }
+        readWriteLock.writeLock().lock();
 
         super.tableau[super.queue]=s;
         super.queue++;
@@ -38,10 +38,10 @@ public class File2<T> extends AbstractFileBloquanteBornee<T> {
     @Override
     public synchronized T prendre() throws InterruptedException {
         System.out.println("prendre");
-        readWriteLock.readLock().lock();
         while (super.estVide){
             wait();
         }
+        readWriteLock.readLock().lock();
 
         T out = super.tableau[super.tete];
 
