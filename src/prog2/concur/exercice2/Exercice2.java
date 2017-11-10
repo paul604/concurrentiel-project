@@ -58,7 +58,7 @@ class Consommateur implements Runnable {
 public class Exercice2 {
 
     public static void main(String args[]) {
-        AbstractFileBloquanteBornee<String> f = new File1<>(5);
+        AbstractFileBloquanteBornee<String> f = new File1<String>(5);
 
         new Thread(new Producteur(f, "P1")).start();
         new Thread(new Producteur(f, "P2")).start();
