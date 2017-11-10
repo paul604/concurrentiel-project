@@ -1,5 +1,7 @@
 package prog2.concur.exercice2;
 
+import java.util.Scanner;
+
 class Producteur implements Runnable {
 
     private AbstractFileBloquanteBornee<String> file;
@@ -58,7 +60,23 @@ class Consommateur implements Runnable {
 public class Exercice2 {
 
     public static void main(String args[]) {
-        AbstractFileBloquanteBornee<String> f = new File1<String>(5);
+        System.out.println(
+                "---------- choix ----------\n"+
+                        "   1 => bas niveau\n"+
+                        "   2 => haut niveau");
+        Scanner scanner = new Scanner(System.in);
+        String next = scanner.next();
+        AbstractFileBloquanteBornee<String> f = null;
+        switch (next) {
+            case "1":
+                f = new File1<String>(5);
+                break;
+            case "2":
+                f = new File1<String>(5);
+                break;
+            default:
+                System.exit(1);
+        }
 
         new Thread(new Producteur(f, "P1")).start();
         new Thread(new Producteur(f, "P2")).start();
