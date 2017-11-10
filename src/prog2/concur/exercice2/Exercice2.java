@@ -80,15 +80,15 @@ public class Exercice2 {
 
         new Thread(new Producteur(f, "P1")).start();
         new Thread(new Producteur(f, "P2")).start();
-//        new Thread(new Producteur(f, "P3")).start();
-//        new Thread(new Producteur(f, "P4")).start();
-//        new Thread(new Producteur(f, "P5")).start();
-//        new Thread(new Producteur(f, "P6")).start();
+        new Thread(new Producteur(f, "P3")).start();
+        new Thread(new Producteur(f, "P4")).start();
+        new Thread(new Producteur(f, "P5")).start();
+        new Thread(new Producteur(f, "P6")).start();
 
-//        new Thread(new Consommateur(f, "C1")).start();
-//        new Thread(new Consommateur(f, "C2")).start();
-//        new Thread(new Consommateur(f, "C3")).start();
-//        new Thread(new Consommateur(f, "C4")).start();
+        new Thread(new Consommateur(f, "C1")).start();
+        new Thread(new Consommateur(f, "C2")).start();
+        new Thread(new Consommateur(f, "C3")).start();
+        new Thread(new Consommateur(f, "C4")).start();
 
 
         new Thread(new Consommateur(f, "C5")).start();
