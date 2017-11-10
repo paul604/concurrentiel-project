@@ -5,21 +5,21 @@ package prog2.concur.exercice2;
  */
 public class File1<T> extends AbstractFileBloquanteBornee<T> {
 
-    private boolean SemaphoreRead;
-    private boolean SemaphoreWrite;
+    private Semaphore SemaphoreRead;
+    private Semaphore SemaphoreWrite;
 
     public File1(int n) throws IllegalArgumentException {
         super(n);
-        SemaphoreRead = true;
-        SemaphoreWrite = true;
+        SemaphoreRead = new Semaphore();
+        SemaphoreWrite = new Semaphore();
     }
 
     @Override
     public synchronized void deposer(T s) throws InterruptedException {
-        while (!SemaphoreWrite || super.estPleine){
+        while (super.estPleine){
             wait();
         }
-        SemaphoreWrite=false;
+        SemaphoreWrite.lock();
 
         super.tableau[super.queue]=s;
         super.queue++;
@@ -29,16 +29,17 @@ public class File1<T> extends AbstractFileBloquanteBornee<T> {
         }
         super.estVide=false;
 
-        SemaphoreWrite=true;
+        SemaphoreWrite.unLock();
         notify();
     }
 
     @Override
     public synchronized T prendre() throws InterruptedException {
-        while (!SemaphoreRead || super.estVide){
+        while (super.estVide){
             wait();
         }
-        SemaphoreRead=false;
+        SemaphoreRead.lock();
+
 
         T out = super.tableau[super.tete];
 
@@ -52,8 +53,29 @@ public class File1<T> extends AbstractFileBloquanteBornee<T> {
         }
         super.estPleine=false;
 
-        SemaphoreRead=true;
+        SemaphoreRead.unLock();
+
         notify();
         return out;
+    }
+}
+
+class Semaphore{
+    boolean ok;
+
+    public Semaphore() {
+        this.ok = true;
+    }
+
+    public synchronized void lock() throws InterruptedException {
+        while (!ok){
+            wait();
+        }
+        ok=false;
+    }
+
+    public synchronized void unLock(){
+        this.ok = true;
+        notifyAll();
     }
 }
