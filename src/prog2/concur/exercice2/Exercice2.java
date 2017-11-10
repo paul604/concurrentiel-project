@@ -69,10 +69,10 @@ public class Exercice2 {
         AbstractFileBloquanteBornee<String> f = null;
         switch (next) {
             case "1":
-                f = new File1<String>(5);
+                f = new File1<>(5);
                 break;
             case "2":
-                f = new File1<String>(5);
+                f = new File2<>(5);
                 break;
             default:
                 System.exit(1);
