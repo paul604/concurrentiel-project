@@ -1,0 +1,126 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{authblk}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[none]{hyphenat}
+
+ \geometry{
+ a4paper,
+ total={169mm,240mm},
+ left=16mm,
+ top=20mm,
+ }
+
+\usepackage{listings} % For code coloration
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+
+\headheight = 14pt
+
+\hypersetup{colorlinks = true,citecolor=black,filecolor=black,linkcolor=black,urlcolor=black}
+
+\lstdefinestyle{s}{
+  backgroundcolor=\color{backcolour},   commentstyle=\color{codegreen},
+  keywordstyle=\color{NavyBlue},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=4
+}
+
+
+\lstset{style=s}
+\lstset{literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1 {°}{{\no}}1
+}
+
+\pretitle{
+  \begin{center}
+  \includegraphics[width=60mm,height=31mm]{img/univ.png}
+  \qquad \qquad
+  \includegraphics[width=37mm,height=31mm]{img/iutNantes.jpg}\\[\bigskipamount]
+}
+
+\posttitle{
+ \end{center}
+}
+
+\title{Mini-projet en Programmation concurrente\\
+    \normalsize }
+\date{\today}
+\author{Paul Orhon -- Nicolas Bourges\\
+\small LP -- MiAR -- Université de Nantes }
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Paul Orhon -- Nicolas Bourges --- \small LP -- MiAR}
+\lhead{Mini-projet en Programmation concurrente}
+\rfoot{Page \thepage}
+\lfoot{INSTITUT UNIVERSITAIRE DE TECHNOLOGIE - NANTES}
+
+
+\begin{document}
+
+\maketitle%page titre
+\tableofcontents
+
+\clearpage
+
+\section{Exercice 1 : Le dîner des philosophes}
+\subsection{}
+Lorsqu’on exécute le programme, on constate que celui-ci se bloque à un moment de l’exécution. En regardant dans les messages du terminal, on remarque qu’un philosophe mange puis pense et ainsi de suite pendant une longue période puis un autre philosophe enchaîne. Pendant ce temps, les autres philosophes sont en attente. Avant la situation de blocage, on constate que les philosophes essaient de manger tous en même temps. Dès qu’une baguette est disponible, celle-ci est prise par un philosophe même s'il n’a pas de baguette dans l’autre main. Ainsi, on se retrouve dans une situation de deadlock.
+
+\subsection{}
+En effet, on remarque une situation de deadlock, c’est-à-dire que des threads attendent entre eux la libération de ressources avant de continuer leur exécution. Dans notre cas, les philosophes attendent que les baguettes de leurs gauches et de leurs droites se soient plus occupées pour pouvoir manger. Or, chaque philosophe se retrouve avec une baguette de disponible.
+
+Pour résoudre ce problème, les philosophes doivent attendre leurs tours et dès que l’un a la possibilité de prendre les 2 baguettes en même temps, il mange, sinon il attend.
+
+\subsection{}
+La solution se trouve dans le package de l’exercice 1. Lorsqu’on teste la solution, on peut voir dans le terminal le nombre de fois qu’un philosophe mange et pense. Nous avons enlevé les messages qui indiquait que le philosophe mange et pense pour alléger l’affichage du terminal.
+
+Par ailleurs, nous avons ajouté une barre de pourcentage, pour chaque philosophe, qui représente le nombre de fois qu’il a mangé et pensé.
+
+
+\section{Exercice 2 : File de communication bloquante}
+\subsection{}
+La classe AbstractFileBloquanteBornee<E> est une classe abstraite qui permet de créer des files de communications bornées bloquantes. Les threads peuvent déposer (resp. prendre) des objets dans ces filles. Cette opération peut être bloquante si la file est pleine (resp. vide).
+
+\subsection{}
+Pour implémenter une classe classe abstraite, il faut implémenter ces méthodes à savoir, dans notre cas, prendre() et déposer(). Ensuite, en se basant sur les descriptions de chaque méthodes, il faut mettre en place un système de gestion de thread pour éviter que les threads ajoutent un élément alors que la liste est pleine ou qu’ils essayent d’en retirer alors qu’elle est vide.
+
+\end{document}
