@@ -17,13 +17,13 @@ public class File2<T> extends AbstractFileBloquanteBornee<T> {
 
     @Override
     public synchronized void deposer(T s) throws InterruptedException {
-        while ( super.estPleine){
+        while ( super.estPleine){// si le tableau est plein on attend
             wait();
         }
-        readWriteLock.writeLock().lock();
+        readWriteLock.writeLock().lock();//on demande l'écriture
 
         super.tableau[super.queue]=s;
-        super.queue++;
+        super.queue++;// add 1 a la queue du tableau
 
         if (super.queue>=super.tableau.length) {
             super.estPleine=true;
@@ -36,16 +36,16 @@ public class File2<T> extends AbstractFileBloquanteBornee<T> {
 
     @Override
     public synchronized T prendre() throws InterruptedException {
-        while (super.estVide){
+        while (super.estVide){// si le tableau est vide on attend
             wait();
         }
         readWriteLock.readLock().lock();
 
         T out = super.tableau[super.tete];
 
-        super.queue--;
+        super.queue--;// sup 1 a la queue du tableau
         for (int i = 0; i < super.queue; i++) {
-            super.tableau[i]=super.tableau[i+1];
+            super.tableau[i]=super.tableau[i+1];//décalage à gauche
         }
 
         if (super.queue<=0) {
